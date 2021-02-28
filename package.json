@@ -1,7 +1,7 @@
 {
   "name": "electron-vite-react",
   "description": "This Starter utilizes Electron, TypeScript, Vite, React, Tailwind CSS with twstyled CSS in JS. It tries to adhere to best practices.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "private": true,
   "scripts": {
