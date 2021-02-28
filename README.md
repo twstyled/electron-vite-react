@@ -1,6 +1,6 @@
 # Electron 11 + TypeScript 4.0 + Vite 2 + React 17 + Tailwind 2 + twstyled starter
 
-![Electron + Vite + React Starter](public/screenshot.png)
+![Electron + Vite + React Starter](https://github.com/twstyled/electron-vite-react/blob/main/public/screenshot.png)
 
 Blazing fast Electron starter including 
 - [x] `Vite` for next generation frontend tooling
