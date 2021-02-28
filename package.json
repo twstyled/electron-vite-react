@@ -1,0 +1,159 @@
+{
+  "name": "electron-vite-react",
+  "description": "This Starter utilizes Electron, TypeScript, Vite, React, Tailwind CSS with twstyled CSS in JS. It trys to adhare best practices.",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf yarn.lock && rimraf ./**/.next && rimraf dist && rimraf ./**/out && rimraf {**/,}node_modules",
+    "dev": "cross-env NODE_ENV=development node -r esbuild-register ./scripts/dev.ts",
+    "preview": "cross-env NODE_ENV=production electron ./dist/main",
+    "dev:renderer": "vite",
+    "dev:main": "cross-env NODE_ENV=development node -r esbuild-register ./scripts/dev.ts",
+    "build": "rimraf dist && vite build && npm run prod:esbuild",
+    "prod:esbuild": "cross-env NODE_ENV=production node -r esbuild-register ./scripts/prod.ts",
+    "prod:tsc": "tsc --project ./src/main/tsconfig.json",
+    "publish:mac": "env-cmd -r ./.config/.env-secrets.json -e production electron-builder --macos",
+    "publish:win": "env-cmd -r ./.config/.env-secrets.json -e production electron-builder --win"
+  },
+  "dependencies": {
+    "@twstyled/core": "^3.2.4",
+    "@twstyled/theme": "^3.2.4",
+    "@twstyled/util": "^3.2.4",
+    "electron-context-menu": "^2.5.0",
+    "electron-window-state": "^5.0.3",
+    "framer-motion": "3.7.0",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "tailwindcss": "^2.0.3"
+  },
+  "devDependencies": {
+    "@sync-labs/eslint-config": "^2.2.6",
+    "@types/node": "^14.14.31",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@vitejs/plugin-react-refresh": "^1.1.0",
+    "chalk": "^4.1.0",
+    "cross-env": "^7.0.3",
+    "env-cmd": "^10.1.0",
+    "electron": "^11.3.0",
+    "electron-builder": "^22.9.1",
+    "electron-notarize": "^1.0.0",
+    "esbuild": "^0.8.53",
+    "esbuild-register": "^2.0.0",
+    "eslint": "^7.20.0",
+    "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.1.2",
+    "vite": "^2.0.4",
+    "vite-plugin-twstyled": "^3.2.4"
+  },
+  "resolutions": {
+    "@linaria/babel-preset": "npm:@twstyled/linaria-babel-preset@3.0.0-beta.1",
+    "@linaria/preeval": "npm:@twstyled/linaria-preeval@3.0.0-beta.1"
+  },
+  "author": "twstyled contributors",
+  "browserslist": [
+    "last 1 electron version"
+  ],
+  "build": {
+    "directories": {
+      "output": "dist",
+      "buildResources": "public"
+    },
+    "appId": "dev.twstyled.app",
+    "productName": "twstyled-app",
+    "afterSign": "scripts/notarize.js",
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "extendInfo": {
+        "NSUserNotificationAlertStyle": "alert"
+      },
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": ".config/entitlements.mac.plist",
+      "entitlementsInherit": ".config/entitlements.mac.plist",
+      "publish": [
+        {
+          "provider": "generic",
+          "url": "https://files.twstyled.com/releases/${name}/${os}/"
+        },
+        {
+          "provider": "s3",
+          "bucket": "files.twstyled.com",
+          "channel": "latest",
+          "acl": null,
+          "path": "/releases/${name}/${os}"
+        }
+      ]
+    },
+    "dmg": {
+      "background": "public/dmgBackground.png",
+      "icon": "icon.icns",
+      "iconSize": 155,
+      "window": {
+        "width": 660,
+        "height": 400
+      },
+      "contents": [
+        {
+          "x": 123,
+          "y": 172
+        },
+        {
+          "x": 539,
+          "y": 168,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "publisherName": "twstyled contributors",
+      "sign": null,
+      "publish": [
+        {
+          "provider": "generic",
+          "url": "https://files.twstyled.com/releases/${name}/${os}/"
+        },
+        {
+          "provider": "s3",
+          "bucket": "files.twstyled.com",
+          "channel": "latest",
+          "acl": null,
+          "path": "/releases/${name}/${os}"
+        }
+      ]
+    },
+    "asar": false,
+    "extraMetadata": {
+      "main": "main/index.js"
+    },
+    "files": [
+      {
+        "filter": [
+          "package.json",
+          "tailwind.config.js"
+        ]
+      },
+      {
+        "from": "./dist",
+        "to": "./",
+        "filter": [
+          "index.html"
+        ]
+      },
+      {
+        "from": "./dist/main",
+        "to": "./main"
+      },
+      {
+        "from": "./dist/assets",
+        "to": "./assets"
+      }
+    ]
+  },
+  "workspaces": [
+    "lib-twstyled/packages/*"
+  ]
+}

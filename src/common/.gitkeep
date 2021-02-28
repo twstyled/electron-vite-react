@@ -1,0 +1,5 @@
+replace this folder with any files you want to include from both main and renderer
+
+``` js
+import ____ from '@/common/util'
+```
